@@ -10,6 +10,7 @@
 
 <div class="contact page-width page-width--narrow spaced-section">
   {%- form 'contact', id: 'ContactForm' -%}
+    <div id='msg'></div>
     {%- if form.posted_successfully? -%}
       <div class="form-status form-status-list form__message" tabindex="-1" autofocus>{% render 'icon-success' %} {{ 'templates.contact.form.post_success' | t }}</div>
     {%- elsif form.errors -%}
@@ -38,6 +39,7 @@
           name="contact[email]"
           spellcheck="false"
           autocapitalize="off"
+          required="true"
           value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
           aria-required="true"
           {% if form.errors contains 'email' %}
@@ -107,16 +109,17 @@
       $.ajax({
         type: 'POST',
         url: '/contact#ContactForm',
-        dataType: "json",
+        //dataType: "POST",
         data: json,
         async: false,
         cache: false,
         timeout: 30000,
-        success: function (obj) {
-            console.log(obj);
+        success: function (response) {
+           $("#msg").html('<div class="form-status form-status-list form__message" tabindex="-1" autofocus>Thanks for contacting with us. We will response shortly.</div>');
             
         },
         error: function (request, status, error) {
+          $("#msg").html('<div class="form-status form-status-list form__message" tabindex="-1" autofocus>Please try after some time.</div>');
           console.log(JSON.stringify(request));
             console.log("Error on " + error, status, request);
                    }
