@@ -1,0 +1,117 @@
+
+<div class="container">
+  <div class="row">
+      <h1 class="text-center">Gallery</h1>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="masonry">
+    {%- for item in section.blocks -%}
+    <div class="brick">
+      {%- unless item.settings.image == "" -%}
+	    	<img src="{{ item.settings.image | img_url: '500x'  }}" alt="gallery Image" class="image" loading="lazy"/>
+      {%- endunless -%}
+    </div>
+      
+    {%- endfor -%}
+
+  </div>
+
+</div>
+</div>
+
+{% style %}
+.text-center{
+  margin-top: 5%;
+}
+.container {
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+.masonry {
+  column-count: 2;
+  column-gap: 5px;
+  margin: 5% auto;
+}
+@media (min-width: 768px) {
+  .masonry {
+    column-count: 3;
+ }
+}
+@media (min-width: 992px) {
+  .masonry {
+    column-count: 4;
+ }
+}
+@media (min-width: 1199px) {
+  .masonry {
+    column-count: 5;
+ }
+}
+.masonry .brick {
+  box-sizing: border-box;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
+  counter-increment: brick-counter;
+}
+.masonry img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+{% endstyle %}
+
+{% schema %}
+  {
+  "name": "Gallery",
+  "settings": [],
+  "blocks": [
+    { 
+      "type": "image",
+      "name": "Image Block",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "image"
+        },
+        {
+          "type":"color",
+          "id":"color_picker",
+          "label":"select color",
+		      "default": "#ffffff"
+        },
+        {
+          "type": "select",
+          "id": "selectclass",
+          "label": "Select Class",
+          "options": [
+            {
+              "value": "vertical",
+              "label": "vertical"
+            },
+            {
+              "value": "horizontal",
+              "label": "horizontal"
+            }
+          ],
+          "default": "horizontal"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gallery"
+    }
+  ]
+}
+{% endschema %}
+
+
+{% javascript %}
+{% endjavascript %}

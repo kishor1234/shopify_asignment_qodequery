@@ -1,0 +1,87 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-gallery",
+      "blocks": {
+        "75856dd9-57db-4650-afca-64ae204d47c8": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/stylish-summer-necklace.jpg",
+            "color_picker": "#ffffff"
+          }
+        },
+        "6b4b86c4-9274-49d6-9fc0-83be174618b4": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/model-laughs-barefoot.jpg",
+            "color_picker": "#ffffff"
+          }
+        },
+        "347b3b8b-d422-4b78-bda7-c905faef6c98": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/couple-relax-at-home.jpg",
+            "color_picker": "#ffffff"
+          }
+        },
+        "0bc03f54-afc4-40c6-b8e4-ac2efdcfe592": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/two-people-share-a-kiss-in-the-kitchen-cooking.jpg",
+            "color_picker": "#ffffff"
+          }
+        },
+        "ff57d460-bdca-4daa-aa48-6b33ce86809d": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/rack-of-womens-clothing.jpg",
+            "color_picker": "#ffffff"
+          }
+        },
+        "968095be-c103-405f-8633-88ae59c5e6e8": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/smiling-woman-poses.jpg",
+            "color_picker": "#ffffff"
+          }
+        },
+        "1b08da96-9e63-4033-8cac-0502ec0e7552": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/woman-in-pool.jpg",
+            "color_picker": "#ffffff"
+          }
+        },
+        "e9425286-3ea1-412f-b814-2dd0670c0b72": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/friends-sunbathing.jpg",
+            "color_picker": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "75856dd9-57db-4650-afca-64ae204d47c8",
+        "6b4b86c4-9274-49d6-9fc0-83be174618b4",
+        "347b3b8b-d422-4b78-bda7-c905faef6c98",
+        "0bc03f54-afc4-40c6-b8e4-ac2efdcfe592",
+        "ff57d460-bdca-4daa-aa48-6b33ce86809d",
+        "968095be-c103-405f-8633-88ae59c5e6e8",
+        "1b08da96-9e63-4033-8cac-0502ec0e7552",
+        "e9425286-3ea1-412f-b814-2dd0670c0b72"
+      ],
+      "settings": {
+      }
+    },
+    "16299655104670cf9e": {
+      "type": "contact-form",
+      "disabled": true,
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "main",
+    "16299655104670cf9e"
+  ]
+}

@@ -1,0 +1,486 @@
+<div class="container-fluid">
+  <div class="banner-block">
+    <div class="main-slider">
+      {%- for item in section.blocks -%}
+        {% assign handle= item.settings.video_type %}
+        {% case handle %}
+          {% when 'vimeo' %}
+        <div class="item vimeo" data-video-start="4">
+            <iframe class="embed-player slide-media" src="{{ item.settings.video_url }}" width="980" height="520" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+            <div class="container">
+                <div class="banner-content">
+                </div>
+                <p class="caption">Vimeo</p>
+            </div>
+        </div>
+        {% when 'youtube' %}
+        <div class="item youtube">
+          {% assign video = item.settings.video_url | split: '?v=' %}
+          {% assign v  = video[1] %}
+            <iframe class="embed-player slide-media" width="980" height="520" src="https://www.youtube.com/embed/{{v}}?autoplay=1&mute=1&modestbranding=1&loop=1&playlist={{v}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div class="container">
+                <div class="banner-content">
+                </div>
+                <p class="caption">YouTube</p>
+            </div>
+        </div>
+        {% else %}
+        {% endcase %}
+      {%- endfor -%}  
+        
+    </div>
+  </div>
+ </div>
+
+{% schema %}
+{
+  "name": "Video Slider",
+  "settings": [
+    {
+      "id": "video_url",
+      "type": "video_url",
+      "label": "Video URL",
+      "accept": [
+        "youtube",
+        "vimeo"
+      ],
+      "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+      "info": "Insert Youtube URL",
+      "placeholder": "text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "video Block",
+      "settings": [
+        {
+          "id": "video_url",
+          "type": "video_url",
+          "label": "Video URL",
+          "accept": [
+            "youtube",
+            "vimeo"
+          ],
+          "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+          "info": "Insert Youtube URL",
+          "placeholder": "text"
+        },
+        {
+            "type": "select",
+            "id": "video_type",
+            "label": "Video Type",
+            "options": [
+              {
+                "value": "youtube",
+                "label": "youtube"
+              },
+              {
+                "value": "vimeo",
+                "label": "vimeo"
+              }
+            ],
+            "default": "youtube"
+          }
+
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slider"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+
+<style>
+    /*Variables */
+    /*mixin */
+    .slick-slide, .slick-slide::before, .caption {
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+    .slick-slide::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    .main-slider {
+        position: relative;
+        width: 100%;
+        height: 42vw;
+        min-height: 8vw;
+        margin-bottom: 0;
+        opacity: 0;
+        visibility: hidden;
+        -webkit-transition: all 1.2s ease;
+        -moz-transition: all 1.2s ease;
+        -o-transition: all 1.2s ease;
+        -ms-transition: all 1.2s ease;
+        transition: all 1.2s ease;
+    }
+    .main-slider.slick-initialized {
+        opacity: 1;
+        visibility: visible;
+    }
+    .main-slider:hover .slick-dots {
+        opacity: 1;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        -ms-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+    .slick-dotted.slick-slider {
+        margin-bottom: 0;
+    }
+    .slick-slide {
+        position: relative;
+        height: 42vw;
+    }
+    .slick-slide::before {
+        background-color: #000;
+        opacity: 0.3;
+        z-index: 1;
+    }
+    .slick-slide video {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+    .slick-slide iframe {
+        position: relative;
+        pointer-events: none;
+    }
+    .slick-slide figure {
+        position: relative;
+        height: 100%;
+        margin: 0;
+    }
+    .slick-slide .slide-image {
+        opacity: 0;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        -webkit-transition: all 0.8s ease;
+        -moz-transition: all 0.8s ease;
+        -o-transition: all 0.8s ease;
+        -ms-transition: all 0.8s ease;
+        transition: all 0.8s ease;
+    }
+    .slick-slide .slide-image.show {
+        opacity: 1;
+    }
+    .slick-slide .image-entity {
+        width: 100%;
+        opacity: 0;
+        visibility: hidden;
+    }
+    .slick-slide .loading {
+        position: absolute;
+        top: 44%;
+        left: 0;
+        width: 100%;
+    }
+    .slick-slide .slide-media {
+        animation: slideOut 0.4s cubic-bezier(0.4, 0.29, 0.01, 1);
+    }
+    .slick-slide.slick-active {
+        z-index: 1;
+    }
+    .slick-slide.slick-active .slide-media {
+        animation: slideIn 2.4s cubic-bezier(0.4, 0.29, 0.01, 1);
+    }
+    .slick-slide.slick-active .caption {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        -moz-transform: translateY(0);
+        -ms-transform: translateY(0);
+        -o-transform: translateY(0);
+        transform: translateY(0);
+        transition: all 0.7s cubic-bezier(0.32, 0.34, 0, 1.62) 0.6s;
+    }
+    .caption {
+        position: absolute;
+        top: 5%;
+        left: 15px;
+        text-align: center;
+        padding: 7px 10px;
+        border: 3px solid;
+        color: #fff;
+        margin: 0;
+        font-size: 15px;
+        font-weight: bold;
+        letter-spacing: 0.02em;
+        opacity: 0;
+        z-index: 1;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+        -webkit-transform: translateY(100px);
+        -moz-transform: translateY(100px);
+        -ms-transform: translateY(100px);
+        -o-transform: translateY(100px);
+        transform: translateY(100px);
+    }
+    .slick-dots {
+        opacity: 0;
+        bottom: 12%;
+        text-align: center;
+        padding-top: 15px;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        -ms-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+    .slick-dots li {
+        display: inline-block;
+        vertical-align: top;
+        margin: 0 2px;
+    }
+    .slick-dots li button {
+        width: 16px;
+        height: 16px;
+        border: none;
+        cursor: pointer;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        -moz-box-shadow: 0 0 0 0 transparent;
+        -webkit-box-shadow: 0 0 0 0 transparent;
+        -ms-box-shadow: 0 0 0 0 transparent;
+        -o-box-shadow: 0 0 0 0 transparent;
+        box-shadow: 0 0 0 0 transparent;
+        vertical-align: middle;
+        color: #fff;
+        background-color: #fff;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+        opacity: 0.4;
+    }
+    .slick-dots li button:focus {
+        outline: none;
+    }
+    .slick-dots li button:hover {
+        opacity: 1;
+    }
+    .slick-dots li.slick-active button {
+        border-color: #000;
+        -moz-box-shadow: 0 0 0 2px #fff;
+        -webkit-box-shadow: 0 0 0 2px #fff;
+        -ms-box-shadow: 0 0 0 2px #fff;
+        -o-box-shadow: 0 0 0 2px #fff;
+        box-shadow: 0 0 0 2px #fff;
+        opacity: 1;
+    }
+    @keyframes slideIn {
+        from {
+            filter: url(blur.svg#blur);
+            filter: blur(15px);
+            -webkit-filter: blur(15px);
+            filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='10');
+        }
+        to {
+            filter: url(blur.svg#blur);
+            filter: blur(0);
+            -webkit-filter: blur(0);
+            filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='10');
+        }
+    }
+    @keyframes slideOut {
+        from {
+            filter: url(blur.svg#blur);
+            filter: blur(0);
+            -webkit-filter: blur(0);
+            filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='10');
+        }
+        to {
+            filter: url(blur.svg#blur);
+            filter: blur(15px);
+            -webkit-filter: blur(15px);
+            filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='10');
+        }
+    }
+
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script>
+    /*Main Banner Slick Slider js with auto play YouTube, Vimeo and HTML5 video */
+    var slideWrapper = $(".main-slider"),
+            iframes = slideWrapper.find('.embed-player'),
+            lazyImages = slideWrapper.find('.slide-image'),
+            lazyCounter = 0;
+// POST commands to YouTube or Vimeo API
+    function postMessageToPlayer(player, command) {
+        if (player == null || command == null)
+            return;
+        player.contentWindow.postMessage(JSON.stringify(command), "*");
+    }
+// When the slide is changing
+    function playPauseVideo(slick, control) {
+        var currentSlide, slideType, startTime, player, video;
+
+        currentSlide = slick.find(".slick-current");
+        slideType = currentSlide.attr("class").split(" ")[1];
+        player = currentSlide.find("iframe").get(0);
+        startTime = currentSlide.data("video-start");
+
+        if (slideType === "vimeo") {
+            switch (control) {
+                case "play":
+                    if ((startTime != null && startTime > 0) && !currentSlide.hasClass('started')) {
+                        currentSlide.addClass('started');
+                        postMessageToPlayer(player, {
+                            "method": "setCurrentTime",
+                            "value": startTime
+                        });
+                    }
+                    postMessageToPlayer(player, {
+                        "method": "play",
+                        "value": 1
+                    });
+                    slideWrapper.slick('slickPause');
+                    break;
+                case "pause":
+                    postMessageToPlayer(player, {
+                        "method": "pause",
+                        "value": 1
+                    });
+                    break;
+            }
+        } else if (slideType === "youtube") {
+            switch (control) {
+                case "play":
+                    postMessageToPlayer(player, {
+                        "event": "command",
+                        "func": "mute"
+                    });
+                    postMessageToPlayer(player, {
+                        "event": "command",
+                        "func": "playVideo"
+                    });
+                    slideWrapper.slick('slickPause');
+                    break;
+                case "pause":
+                    postMessageToPlayer(player, {
+                        "event": "command",
+                        "func": "pauseVideo"
+                    });
+                    break;
+            }
+        } else if (slideType === "video") {
+            video = currentSlide.children("video").get(0);
+            if (video != null) {
+                if (control === "play") {
+                    video.play();
+                    slideWrapper.slick('slickPause');
+                } else {
+                    video.pause();
+                }
+            }
+        }
+    }
+// Resize player
+    function resizePlayer(iframes, ratio) {
+        if (!iframes[0])
+            return;
+        var win = $(".main-slider"),
+                width = win.width(),
+                playerWidth,
+                height = win.height(),
+                playerHeight,
+                ratio = ratio || 16 / 9;
+
+        iframes.each(function () {
+            var current = $(this);
+            if (width / ratio < height) {
+                playerWidth = Math.ceil(height * ratio);
+                current.width(playerWidth).height(height).css({
+                    left: (width - playerWidth) / 2,
+                    top: 0
+                });
+            } else {
+                playerHeight = Math.ceil(width / ratio);
+                current.width(width).height(playerHeight).css({
+                    left: 0,
+                    top: (height - playerHeight) / 2
+                });
+            }
+        });
+    }
+// DOM Ready
+    $(function () {
+        // Initialize
+        slideWrapper.on("init", function (slick) {
+            slick = $(slick.currentTarget);
+            setTimeout(function () {
+                playPauseVideo(slick, "play");
+            }, 1000);
+            resizePlayer(iframes, 16 / 9);
+        });
+        slideWrapper.on("beforeChange", function (event, slick) {
+            slick = $(slick.$slider);
+            playPauseVideo(slick, "pause");
+        });
+        slideWrapper.on("afterChange", function (event, slick) {
+            slick = $(slick.$slider);
+            playPauseVideo(slick, "play");
+        });
+        slideWrapper.on("lazyLoaded", function (event, slick, image, imageSource) {
+            lazyCounter++;
+            if (lazyCounter === lazyImages.length) {
+                lazyImages.addClass('show');
+                // slideWrapper.slick("slickPlay");
+            }
+        });
+        //start the slider
+        slideWrapper.slick({
+            // fade:true,
+            autoplaySpeed: 4000,
+            autoplay: true,
+            lazyLoad: "progressive",
+            speed: 600,
+            arrows: false,
+            dots: true,
+            adaptiveHeight: true,
+            cssEase: "cubic-bezier(0.87, 0.03, 0.41, 0.9)"
+        });
+    });
+// Resize event
+    $(window).on("resize.slickVideoPlayer", function () {
+        resizePlayer(iframes, 16 / 9);
+    });
+
+</script>
